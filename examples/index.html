@@ -1,0 +1,74 @@
+<!doctype HTML>
+
+<html>
+
+<head>
+  <script src="../src/shapes.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 10vh;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas width="250" height="250"></canvas>
+
+  <script>
+    const canvas = document.getElementsByTagName('canvas')[0];
+    const ctx = canvas.getContext('2d');
+
+    const shape = shapes(ctx);
+    const text = 'Layers are easy!';
+    const font = '14px sans-serif';
+    const pad = 14;
+    const width = shape.textWidth(text, font) + pad * 2;
+    const height = pad * 3;
+
+    shape.circle({
+      radius: 50,
+      x: 50,
+      y: 50,
+      style: '#009688'
+    });
+
+    shape.offset(50, 50);
+
+    shape.layers([
+      // Contents (z-index 0)
+      {
+        'rect background': {
+          x: 0,
+          y: 0,
+          width,
+          height,
+          style: '#000000CC'
+        },
+        'text contents': {
+          x: pad,
+          y: pad + pad / 2,
+          value: text,
+          style: '#fff'
+        }
+      },
+      // Details (z-index 1)
+      {
+        'rect bottom border': {
+          x: pad,
+          y: pad * 2,
+          width: width - pad * 2,
+          height: 2,
+          style: '#fff'
+        }
+      }
+    ]);
+  </script>
+</body>
+
+</html>
