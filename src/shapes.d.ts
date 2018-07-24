@@ -5,13 +5,13 @@
  */
 export type ShapeStyle = string | CanvasGradient | CanvasPattern;
 
-/** The object is stroked. */
+/** Defines that a shape is stroked. */
 export interface Stroked {
   /** The thickness of the stroke, in pixels */
   thickness: number;
 }
 
-/** The object is offset. */
+/** Defines the offset of a shape. */
 export interface Offset {
   /** Number of pixels offset from the left */
   x: number;
@@ -19,8 +19,8 @@ export interface Offset {
   y: number;
 }
 
-/** Defines the properties of a drawable rectangle. */
-export interface RectDef extends Offset {
+/** The specifications for how a rectangle should be rendered. */
+export interface RectSpec extends Offset {
   /** The width of the rectangle in pixels */
   width: number;
   /** The height of the rectangle in pixels */
@@ -29,8 +29,8 @@ export interface RectDef extends Offset {
   style: ShapeStyle;
 }
 
-/** Describes the properties of drawable text. */
-export interface TextDef extends Offset {
+/** The specifications for how a text string should be rendered. */
+export interface TextSpec extends Offset {
   /** The text to render */
   value: string;
   /**
@@ -42,34 +42,34 @@ export interface TextDef extends Offset {
   style: ShapeStyle;
 }
 
-/** Defines the properties of a drawable polygon. */
-export interface PolyDef {
+/** The specifications for how a polygon should be rendered. */
+export interface PolySpec {
   /** A nested array consisting of `[ x, y ]`-coordinates. */
-  points: number[];
+  points: [number, number][];
   /** The style to draw the polygon in.  */
   style: ShapeStyle;
 }
 
-/** Describes the properties of a drawable path.  */
-export interface PathDef {
+/** The specifications for how a SVG path should be rendered.  */
+export interface PathSpec {
   /** The Path2D to draw to the context. */
   path: Path2D;
   /** The style to draw the path in. */
   style: ShapeStyle;
 }
 
-/** Describes the properties of a circle. */
-export interface CircleDef extends Offset {
+/** The specifications for how a circle should be rendered. */
+export interface CircleSpec extends Offset {
   /** The radius of the circle. */
   radius: number;
 }
 
-/** Defines the definition of any shape. */
-export type ShapeDef = PathDef | PolyDef | RectDef | CircleDef;
+/** The specification for any shape. */
+export type AnyShapeSpec = PathSpec | PolySpec | RectSpec | TextSpec | CircleSpec;
 
-/** A layer constitutes a group of commands. */
+/** Constitutes a set of named commands and specifications. */
 export interface ShapeLayer {
-  [namedCommand: string]: ShapeDef | ShapeDef & Stroked;
+  [namedCommand: string]: AnyShapeSpec | AnyShapeSpec & Stroked;
 }
 
 /** A friendly API for drawing shapes to a 2D-context */
@@ -78,25 +78,25 @@ export interface ShapeApi {
    * Draws a SVG path to the context.
    * @param path The definition of the path to draw.
    */
-  path(path: PathDef | PathDef & Stroked): void;
+  path(path: PathSpec | PathSpec & Stroked): void;
 
   /**
    * Draws a polygon to the context.
    * @param poly The definition of the polygon to draw.
    */
-  poly(poly: PolyDef | PolyDef & Stroked): void;
+  poly(poly: PolySpec | PolySpec & Stroked): void;
 
   /**
    * Draws a rectangle to the context.
    * @param def The definition of the rectangle to draw.
    */
-  rect(def: RectDef & Stroked): void;
+  rect(def: RectSpec & Stroked): void;
 
   /**
    * Writes the provided text to the context.
    * @param def The definition of the text to draw.
    */
-  text(def: TextDef): void;
+  text(def: TextSpec): void;
 
   /**
    * Measures the width of the text in whole pixels, rounding up.
@@ -106,7 +106,7 @@ export interface ShapeApi {
   textWidth(text: string, font: string): void;
 
   /**
-   * Draws the provided layers to the context.
+   * Draws the specified layers to the context.
    * 
    * **Usage:**
     ```
@@ -151,7 +151,7 @@ export interface ShapeApi {
   offsetPath(pathString: string, x?: number, y?: number): string;
 }
 
-/** Provides a friendly API for drawing to a 2D-context */
+/** Creates a shape  */
 declare function shapes(
   ctx: HTMLCanvasElement | CanvasRenderingContext2D
 ): ShapeApi;
