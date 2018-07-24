@@ -1,0 +1,24 @@
+{
+  "name": "shapes.js",
+  "version": "0.1.0",
+  "description": "A friendly shape drawing API for the HTML canvas.",
+  "main": "src/shapes.js",
+  "types": "src/shapes.d.ts",
+  "scripts": {
+    "test": "node src/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veridict/shapes.js.git"
+  },
+  "keywords": [
+    "canvas",
+    "api"
+  ],
+  "author": "Veridict AB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/veridict/shapes.js/issues"
+  },
+  "homepage": "https://github.com/veridict/shapes.js#readme"
+}
