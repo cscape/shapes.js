@@ -152,6 +152,8 @@ export interface ShapeApi {
 }
 
 /** Provides a friendly API for drawing to a 2D-context */
-declare function shapes(ctx: CanvasRenderingContext2D): ShapeApi;
+declare function shapes(
+  ctx: HTMLCanvasElement | CanvasRenderingContext2D
+): ShapeApi;
 
 export default shapes;
