@@ -72,31 +72,31 @@ export interface ShapeLayer {
   [namedCommand: string]: AnyShapeSpec | AnyShapeSpec & Stroked;
 }
 
-/** A friendly API for drawing shapes to a 2D-context */
+/** An easy-to-use shape drawing API for the HTML canvas. */
 export interface ShapeApi {
   /**
-   * Draws a SVG path to the context.
-   * @param path The definition of the path to draw.
+   * Renders a SVG path using the provided specifications.
+   * @param spec The specification of the path to draw.
    */
-  path(path: PathSpec | PathSpec & Stroked): void;
+  path(spec: PathSpec | PathSpec & Stroked): void;
 
   /**
-   * Draws a polygon to the context.
-   * @param poly The definition of the polygon to draw.
+   * Renders a polygon using the provided specifications.
+   * @param spec The specification of the polygon to render.
    */
-  poly(poly: PolySpec | PolySpec & Stroked): void;
+  poly(spec: PolySpec | PolySpec & Stroked): void;
 
   /**
-   * Draws a rectangle to the context.
-   * @param def The definition of the rectangle to draw.
+   * Renders a rectangle using the provided specifications.
+   * @param spec The specification of the rectangle to render.
    */
-  rect(def: RectSpec & Stroked): void;
+  rect(spec: RectSpec | RectSpec & Stroked): void;
 
   /**
-   * Writes the provided text to the context.
-   * @param def The definition of the text to draw.
+   * Renders text using the provided specifications.
+   * @param spec The specification of the text to render.
    */
-  text(def: TextSpec): void;
+  text(spec: TextSpec): void;
 
   /**
    * Measures the width of the text in whole pixels, rounding up.
@@ -151,7 +151,7 @@ export interface ShapeApi {
   offsetPath(pathString: string, x?: number, y?: number): string;
 }
 
-/** Creates a shape  */
+/** Creates a new shape API.  */
 declare function shapes(
   ctx: HTMLCanvasElement | CanvasRenderingContext2D
 ): ShapeApi;
