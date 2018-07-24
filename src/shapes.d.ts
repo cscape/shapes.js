@@ -134,7 +134,7 @@ export interface ShapeApi {
       }
     ]);
     ```
-   * @param layers The layers to draw
+   * @param layers A collection of layers to render.
    */
   layers(layers: ShapeLayer[]);
 
