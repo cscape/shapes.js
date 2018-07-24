@@ -1,5 +1,5 @@
 {
-  "name": "shapes.js",
+  "name": "shapes",
   "version": "0.1.0",
   "description": "A friendly shape drawing API for the HTML canvas.",
   "main": "src/shapes.js",
