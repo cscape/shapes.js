@@ -3,16 +3,16 @@
  * - A CanvasGradient object (a linear or radial gradient).
  * - A CanvasPattern object (a repetitive image).
  */
-type ShapeStyle = string | CanvasGradient | CanvasPattern;
+export type ShapeStyle = string | CanvasGradient | CanvasPattern;
 
 /** The object is stroked. */
-interface Stroked {
+export interface Stroked {
   /** The thickness of the stroke, in pixels */
   thickness: number;
 }
 
 /** The object is offset. */
-interface Offset {
+export interface Offset {
   /** Number of pixels offset from the left */
   x: number;
   /** Number of pixels offset from the top */
@@ -20,7 +20,7 @@ interface Offset {
 }
 
 /** Defines the properties of a drawable rectangle. */
-interface RectDef extends Offset {
+export interface RectDef extends Offset {
   /** The width of the rectangle in pixels */
   width: number;
   /** The height of the rectangle in pixels */
@@ -30,7 +30,7 @@ interface RectDef extends Offset {
 }
 
 /** Describes the properties of drawable text. */
-interface TextDef extends Offset {
+export interface TextDef extends Offset {
   /** The text to render */
   value: string;
   /**
@@ -43,7 +43,7 @@ interface TextDef extends Offset {
 }
 
 /** Defines the properties of a drawable polygon. */
-interface PolyDef {
+export interface PolyDef {
   /** A nested array consisting of `[ x, y ]`-coordinates. */
   points: number[];
   /** The style to draw the polygon in.  */
@@ -51,7 +51,7 @@ interface PolyDef {
 }
 
 /** Describes the properties of a drawable path.  */
-interface PathDef {
+export interface PathDef {
   /** The Path2D to draw to the context. */
   path: Path2D;
   /** The style to draw the path in. */
@@ -59,21 +59,21 @@ interface PathDef {
 }
 
 /** Describes the properties of a circle. */
-interface CircleDef extends Offset {
+export interface CircleDef extends Offset {
   /** The radius of the circle. */
   radius: number;
 }
 
 /** Defines the definition of any shape. */
-type ShapeDef = PathDef | PolyDef | RectDef | CircleDef;
+export type ShapeDef = PathDef | PolyDef | RectDef | CircleDef;
 
 /** A layer constitutes a group of commands. */
-interface Layer {
+export interface ShapeLayer {
   [namedCommand: string]: ShapeDef | ShapeDef & Stroked;
 }
 
 /** A friendly API for drawing shapes to a 2D-context */
-interface ShapeApi {
+export interface ShapeApi {
   /**
    * Draws a SVG path to the context.
    * @param path The definition of the path to draw.
@@ -136,7 +136,7 @@ interface ShapeApi {
     ```
    * @param layers The layers to draw
    */
-  layers(layers: Layer[]);
+  layers(layers: ShapeLayer[]);
 
   /**
    * Prepends an offset to the provided `pathString`,
@@ -154,4 +154,4 @@ interface ShapeApi {
 /** Provides a friendly API for drawing to a 2D-context */
 declare function shapes(ctx: CanvasRenderingContext2D): ShapeApi;
 
-export = shapes;
+export default shapes;
