@@ -1,6 +1,6 @@
 (() => {
   function shapes(target) {
-    const ctx = target.tagName === 'CANVAS' ? ctx.getContext('2d') : target;
+    const ctx = target.tagName === 'CANVAS' ? target.getContext('2d') : target;
 
     let offsX = 0;
     let offsY = 0;
