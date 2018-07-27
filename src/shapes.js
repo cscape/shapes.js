@@ -1,4 +1,4 @@
-function shapes(target) {
+const shapes = target => {
   const ctx = target.tagName === 'CANVAS' ? target.getContext('2d') : target;
 
   let offsX = 0;
@@ -114,6 +114,6 @@ function shapes(target) {
   }
 
   return new ShapesApi();
-}
+};
 
 export default shapes;
