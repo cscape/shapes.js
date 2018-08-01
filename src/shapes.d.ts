@@ -103,7 +103,7 @@ export interface ShapeApi {
    * @param text The text to measure.
    * @param font The font to use when measuring.
    */
-  textWidth(text: string, font: string): void;
+  textWidth(text: string, font: string): number;
 
   /**
    * Draws the specified layers to the context.
