@@ -91,7 +91,13 @@ export interface ShapeApi {
    * @param spec The specification of the rectangle to render.
    */
   rect(spec: RectSpec | RectSpec & Stroked): void;
-
+  
+  /**
+   * Renders a circle using the provided specifications.
+   * @param spec The specification of the circle to render.
+   */
+  circle(spec: CircleSpec | CircleSpec & Stroked): void;
+  
   /**
    * Renders text using the provided specifications.
    * @param spec The specification of the text to render.
@@ -136,7 +142,7 @@ export interface ShapeApi {
     ```
    * @param layers A collection of layers to render.
    */
-  layers(layers: ShapeLayer[]);
+  layers(layers: ShapeLayer[]): void;
 
   /**
    * Prepends an offset to the provided `pathString`,
