@@ -62,6 +62,8 @@ export interface PathSpec {
 export interface CircleSpec extends Offset {
   /** The radius of the circle. */
   radius: number;
+  /** The style to draw the circle in. */
+  style: ShapeStyle;
 }
 
 /** The specification for any shape. */
