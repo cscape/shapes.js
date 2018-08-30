@@ -5,6 +5,14 @@
  */
 export type ShapeStyle = string | CanvasGradient | CanvasPattern;
 
+/** The supported baselines for text rendering. */
+export type TextBaseline =
+  | 'top'
+  | 'bottom'
+  | 'middle'
+  | 'alphabetic'
+  | 'hanging';
+
 /** Defines that a shape is stroked. */
 export interface Stroked {
   /** The thickness of the stroke, in pixels */
@@ -40,6 +48,8 @@ export interface TextSpec extends Offset {
   font: string;
   /** The style to render the text in */
   style: ShapeStyle;
+  /** The baseline of the text */
+  baseline: TextBaseline;
 }
 
 /** The specifications for how a polygon should be rendered. */
@@ -67,7 +77,12 @@ export interface CircleSpec extends Offset {
 }
 
 /** The specification for any shape. */
-export type AnyShapeSpec = PathSpec | PolySpec | RectSpec | TextSpec | CircleSpec;
+export type AnyShapeSpec =
+  | PathSpec
+  | PolySpec
+  | RectSpec
+  | TextSpec
+  | CircleSpec;
 
 /** Constitutes a set of named commands and specifications. */
 export interface ShapeLayer {
@@ -93,13 +108,13 @@ export interface ShapeApi {
    * @param spec The specification of the rectangle to render.
    */
   rect(spec: RectSpec | RectSpec & Stroked): void;
-  
+
   /**
    * Renders a circle using the provided specifications.
    * @param spec The specification of the circle to render.
    */
   circle(spec: CircleSpec | CircleSpec & Stroked): void;
-  
+
   /**
    * Renders text using the provided specifications.
    * @param spec The specification of the text to render.
@@ -118,29 +133,29 @@ export interface ShapeApi {
    * 
    * **Usage:**
     ```
-    shape.layers([
-      {
-        'rect background': {
-          x: 0, y: 10,
-          width: 10px,
-          height: 20px
-          style: '#222'
-        },
-        'rect background-border': {
-          x: 0, y: 10,
-          width: 10px,
-          height: 20px
-          style: '#fff',
-          thickness: 2
-        },
-        'text contents': {
-          x: 10, y: 15,
-          value: 'Hi!',
-          font: '10px Arial',
-          style: '#fff'
-        }
+  shape.layers([
+    {
+      'rect background': {
+        x: 0, y: 10,
+        width: 10px,
+        height: 20px
+        style: '#222'
+      },
+      'rect background-border': {
+        x: 0, y: 10,
+        width: 10px,
+        height: 20px
+        style: '#fff',
+        thickness: 2
+      },
+      'text contents': {
+        x: 10, y: 15,
+        value: 'Hi!',
+        font: '10px Arial',
+        style: '#fff'
       }
-    ]);
+    }
+  ]);
     ```
    * @param layers A collection of layers to render.
    */
