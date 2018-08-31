@@ -37,6 +37,12 @@ export interface RectSpec extends Offset {
   style: ShapeStyle;
 }
 
+/** The specifications for how a rounded rectangle should be rendered. */
+export interface RoundedRectSpec extends RectSpec {
+  /** The border radius */
+  radius: number;
+}
+
 /** The specifications for how a text string should be rendered. */
 export interface TextSpec extends Offset {
   /** The text to render */
@@ -81,6 +87,7 @@ export type AnyShapeSpec =
   | PathSpec
   | PolySpec
   | RectSpec
+  | RoundedRectSpec
   | TextSpec
   | CircleSpec;
 
@@ -108,6 +115,12 @@ export interface ShapeApi {
    * @param spec The specification of the rectangle to render.
    */
   rect(spec: RectSpec | RectSpec & Stroked): void;
+
+  /**
+   * Renders a rounded rectangle using the provided specifications.
+   * @param spec The specification of the rounded rectangle to render.
+   */
+  roundedRect(spec: RoundedRectSpec | RoundedRectSpec & Stroked): void;
 
   /**
    * Renders a circle using the provided specifications.
