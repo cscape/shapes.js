@@ -67,7 +67,7 @@ const shapes = target => {
       }
     }
 
-    roundedRect = ({ x, y, width, height, radius, style, thickness }) => {
+    roundedRect({ x, y, width, height, radius, style, thickness }) {
       ctx.beginPath();
       ctx.moveTo(x + radius, y);
       ctx.lineTo(x + width - radius, y);
@@ -92,7 +92,7 @@ const shapes = target => {
       } else {
         ctx.fill(fill);
       }
-    };
+    }
 
     text({ x, y, value, font, style, baseLine }) {
       set('font', font);
