@@ -97,7 +97,7 @@ const shapes = target => {
     text({ x, y, value, font, style, baseline }) {
       set('font', font);
       set('fillStyle', style);
-      baseLine && set('textBaseline  ine', baseline);
+      baseline && set('textBaseline  ine', baseline);
 
       ctx.fillText(value, offsX + x, offsY + y);
     }
