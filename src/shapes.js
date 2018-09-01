@@ -88,16 +88,16 @@ const shapes = target => {
       setStyle(style, thickness);
 
       if (thickness) {
-        ctx.stroke(stroke);
+        ctx.stroke();
       } else {
-        ctx.fill(fill);
+        ctx.fill();
       }
     }
 
-    text({ x, y, value, font, style, baseLine }) {
+    text({ x, y, value, font, style, baseline }) {
       set('font', font);
       set('fillStyle', style);
-      baseLine && set('textBaseLine', baseLine);
+      baseLine && set('textBaseline  ine', baseline);
 
       ctx.fillText(value, offsX + x, offsY + y);
     }
