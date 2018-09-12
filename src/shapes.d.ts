@@ -175,6 +175,20 @@ export interface ShapeApi {
   layers(layers: ShapeLayer[]): void;
 
   /**
+   * Sets the drawing origin to the specified point.
+   * @param x The horizontal offset to set, in pixels.
+   * @param y The vertical offset to set, in pixels.
+   */
+  setOrigin(x: number, y: number): void;
+
+  /**
+   * Offsets the drawing origin by the specified amount of pixels.
+   * @param x Number of pixels to offset from the left.
+   * @param y Number of pixels to offset from the top.
+   */
+  offset(x: number, y: number): void;
+
+  /**
    * Prepends an offset to the provided `pathString`,
    * as defined by `x` and `y`.
    *
