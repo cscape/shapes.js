@@ -18,12 +18,12 @@ const shapes = target => {
     }
   };
 
-  const getStyleType = isStroked => (isStroked ? 'strokeStyle' : 'fillStyle');
-
-  const setStyle = (style, thickness) => {
-    set(getStyleType(thickness), style);
-    thickness && set('lineWidth', thickness);
+  const setStroke = (style, thickness) => {
+    set('strokeStyle', style);
+    set('lineWidth', thickness);
   };
+
+  const setFill = style => set('fillStyle', style);
 
   const getLayerCommand = name => {
     const end = name.indexOf(' ');
@@ -32,83 +32,110 @@ const shapes = target => {
   };
 
   class ShapesApi {
-    path({ path, style, thickness }) {
-      setStyle(style, thickness);
-
-      if (thickness) {
-        ctx.stroke(path);
-      } else {
+    path({ path, fill, stroke, thickness }) {
+      if (fill) {
+        setFill(fill);
         ctx.fill(path);
       }
-    }
 
-    poly({ points, style, thickness }) {
-      setStyle(style, thickness);
-
-      drawPoly(points);
-
-      if (thickness) {
-        ctx.stroke();
-      } else {
-        ctx.fill();
+      if (stroke && thickness) {
+        setStroke(stroke, thickness);
+        ctx.stroke(path);
       }
     }
 
-    circle({ x, y, radius, style, thickness }) {
-      setStyle(style, thickness);
+    poly({ points, fill, stroke, thickness }) {
+      drawPoly(points);
 
+      if (fill) {
+        setFill(fill);
+        ctx.fill();
+      }
+
+      if (stroke && thickness) {
+        setStroke(stroke, thickness);
+        ctx.stroke();
+      }
+    }
+
+    circle({ x, y, radius, fill, stroke, thickness }) {
       ctx.beginPath();
       ctx.arc(offsX + x, offsY + y, radius, 0, 2 * Math.PI);
 
-      if (thickness) {
-        ctx.stroke();
-      } else {
+      if (fill) {
+        setFill(fill);
         ctx.fill();
+      }
+
+      if (stroke && thickness) {
+        setStroke(stroke, thickness);
+        ctx.stroke();
       }
     }
 
-    roundedRect({ x, y, width, height, radius, style, thickness }) {
+    roundedRect({ x, y, width, height, radius, fill, stroke, thickness }) {
+      const posX = offsX + x;
+      const posY = offsY + y;
+      const r = Math.min(radius, height, width);
+
       ctx.beginPath();
-      ctx.moveTo(x + radius, y);
-      ctx.lineTo(x + width - radius, y);
-      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-      ctx.lineTo(x + width, y + height - radius);
+      ctx.moveTo(posX + r, posY);
+      ctx.lineTo(posX + width - r, posY);
+      ctx.quadraticCurveTo(posX + width, posY, posX + width, posY + r);
+      ctx.lineTo(posX + width, posY + height - r);
       ctx.quadraticCurveTo(
-        x + width,
-        y + height,
-        x + width - radius,
-        y + height
+        posX + width,
+        posY + height,
+        posX + width - r,
+        posY + height
       );
-      ctx.lineTo(x + radius, y + height);
-      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-      ctx.lineTo(x, y + radius);
-      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.lineTo(posX + r, posY + height);
+      ctx.quadraticCurveTo(posX, posY + height, posX, posY + height - r);
+      ctx.lineTo(posX, posY + r);
+      ctx.quadraticCurveTo(posX, posY, posX + r, posY);
       ctx.closePath();
 
-      setStyle(style, thickness);
-
-      if (thickness) {
-        ctx.stroke();
-      } else {
+      if (fill) {
+        setFill(fill);
         ctx.fill();
+      }
+
+      if (stroke && thickness) {
+        setStroke(stroke, thickness);
+        ctx.stroke();
       }
     }
 
-    text({ x, y, value, font, style, baseline }) {
-      set('font', font);
-      set('fillStyle', style);
-      baseline && set('textBaseline', baseline);
+    text({ x, y, value, font, baseline, fill, stroke, thickness }) {
+      const posX = offsX + x;
+      const posY = offsY + y;
 
-      ctx.fillText(value, offsX + x, offsY + y);
+      set('font', font);
+      set('textBaseline', baseline);
+
+      if (fill) {
+        setFill(fill);
+        ctx.fillText(value, posX, posY);
+      }
+
+      if (stroke && thickness) {
+        setStroke(stroke, thickness);
+        ctx.strokeText(value, posX, posY);
+      }
     }
 
-    rect({ x, y, width, height, style, thickness }) {
-      setStyle(style, thickness);
+    rect({ x, y, width, height, fill, stroke, thickness }) {
+      const posX = offsX + x;
+      const posY = offsY + y;
 
-      if (thickness) {
-        ctx.strokeRect(offsX + x, offsY + y, width, height);
-      } else {
-        ctx.fillRect(offsX + x, offsY + y, width, height);
+      if (fill) {
+        setFill(fill);
+        ctx.fillRect(posX, posY, width, height);
+      }
+
+      if (stroke && thickness) {
+        setStroke(stroke, thickness);
+        ctx.strokeRect(posX, posY, width, height);
       }
     }
 

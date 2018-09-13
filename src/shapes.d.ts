@@ -13,11 +13,22 @@ export type TextBaseline =
   | 'alphabetic'
   | 'hanging';
 
+/** Defines the fill of a shape */
+export interface Filled {
+  /** The style to fill the shape with */
+  fill: ShapeStyle;
+}
+
 /** Defines that a shape is stroked. */
 export interface Stroked {
+  /** The style of the stroke */
+  stroke: ShapeStyle;
   /** The thickness of the stroke, in pixels */
   thickness: number;
 }
+
+/** Defines that the shape is visible. Filled, stroked or both */
+export type Visible = (Filled | Stroked) | (Filled & Stroked);
 
 /** Defines the offset of a shape. */
 export interface Offset {
@@ -33,8 +44,6 @@ export interface RectSpec extends Offset {
   width: number;
   /** The height of the rectangle in pixels */
   height: number;
-  /** The style to apply to the rectangle */
-  style: ShapeStyle;
 }
 
 /** The specifications for how a rounded rectangle should be rendered. */
@@ -52,8 +61,6 @@ export interface TextSpec extends Offset {
    * The default font is 10px sans-serif.
    */
   font: string;
-  /** The style to render the text in */
-  style: ShapeStyle;
   /** The baseline of the text */
   baseline: TextBaseline;
 }
@@ -62,24 +69,18 @@ export interface TextSpec extends Offset {
 export interface PolySpec {
   /** A nested array consisting of `[ x, y ]`-coordinates. */
   points: [number, number][];
-  /** The style to draw the polygon in.  */
-  style: ShapeStyle;
 }
 
 /** The specifications for how a SVG path should be rendered.  */
 export interface PathSpec {
   /** The Path2D to draw to the context. */
   path: Path2D;
-  /** The style to draw the path in. */
-  style: ShapeStyle;
 }
 
 /** The specifications for how a circle should be rendered. */
 export interface CircleSpec extends Offset {
   /** The radius of the circle. */
   radius: number;
-  /** The style to draw the circle in. */
-  style: ShapeStyle;
 }
 
 /** The specification for any shape. */
@@ -93,7 +94,7 @@ export type AnyShapeSpec =
 
 /** Constitutes a set of named commands and specifications. */
 export interface ShapeLayer {
-  [namedCommand: string]: AnyShapeSpec | AnyShapeSpec & Stroked;
+  [namedCommand: string]: AnyShapeSpec & Visible;
 }
 
 /** An easy-to-use shape drawing API for the HTML canvas. */
@@ -102,37 +103,37 @@ export interface ShapeApi {
    * Renders a SVG path using the provided specifications.
    * @param spec The specification of the path to draw.
    */
-  path(spec: PathSpec | PathSpec & Stroked): void;
+  path(spec: PathSpec & Visible): void;
 
   /**
    * Renders a polygon using the provided specifications.
    * @param spec The specification of the polygon to render.
    */
-  poly(spec: PolySpec | PolySpec & Stroked): void;
+  poly(spec: PolySpec & Visible): void;
 
   /**
    * Renders a rectangle using the provided specifications.
    * @param spec The specification of the rectangle to render.
    */
-  rect(spec: RectSpec | RectSpec & Stroked): void;
+  rect(spec: RectSpec & Visible): void;
 
   /**
    * Renders a rounded rectangle using the provided specifications.
    * @param spec The specification of the rounded rectangle to render.
    */
-  roundedRect(spec: RoundedRectSpec | RoundedRectSpec & Stroked): void;
+  roundedRect(spec: RoundedRectSpec & Visible): void;
 
   /**
    * Renders a circle using the provided specifications.
    * @param spec The specification of the circle to render.
    */
-  circle(spec: CircleSpec | CircleSpec & Stroked): void;
+  circle(spec: CircleSpec & Visible): void;
 
   /**
    * Renders text using the provided specifications.
    * @param spec The specification of the text to render.
    */
-  text(spec: TextSpec): void;
+  text(spec: TextSpec & Visible): void;
 
   /**
    * Measures the width of the text in whole pixels, rounding up.
@@ -152,20 +153,15 @@ export interface ShapeApi {
         x: 0, y: 10,
         width: 10px,
         height: 20px
-        style: '#222'
-      },
-      'rect background-border': {
-        x: 0, y: 10,
-        width: 10px,
-        height: 20px
-        style: '#fff',
-        thickness: 2
+        fill: '#222',
+        stroke: '#111',
+        thickness: 1
       },
       'text contents': {
         x: 10, y: 15,
         value: 'Hi!',
         font: '10px Arial',
-        style: '#fff'
+        fill: '#fff'
       }
     }
   ]);
@@ -189,8 +185,8 @@ export interface ShapeApi {
   offset(x: number, y: number): void;
 
   /**
-   * Prepends an offset to the provided `pathString`,
-   * as defined by `x` and `y`.
+   * Prepends an offset to the provided `pathString` as defined by `x` and `y`,
+   * and the global offset of the context, defined using `offset` and/or `setOrigin`.
    *
    * **Note:** In order for the path to be properly offset,
    * **all commands in the path must be relative.**
