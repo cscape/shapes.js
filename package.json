@@ -1,9 +1,12 @@
 {
   "name": "shapes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A friendly shape drawing API for the HTML canvas.",
-  "main": "src/shapes.js",
+  "module": "src/shapes.js",
   "types": "src/shapes.d.ts",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
     "test": "node src/test.js"
   },
