@@ -2,17 +2,17 @@
   "name": "shapes",
   "version": "0.2.0",
   "description": "A friendly shape drawing API for the HTML canvas.",
-  "module": "src/shapes.js",
+  "main": "build/shapes.js",
   "types": "src/shapes.d.ts",
   "engines": {
     "node": ">=6.0.0"
   },
   "scripts": {
-    "test": "node src/test.js"
+    "build": "babel src -d build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/veridict/shapes.js.git"
+    "url": "git+https://gitlab.com/veridict/shapes.js.git"
   },
   "keywords": [
     "canvas",
@@ -21,7 +21,11 @@
   "author": "Veridict AB",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/veridict/shapes.js/issues"
+    "url": "https://gitlab.com/veridict/shapes.js/issues"
   },
-  "homepage": "https://github.com/veridict/shapes.js#readme"
+  "homepage": "https://gitlab.com/veridict/shapes.js#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
 }
