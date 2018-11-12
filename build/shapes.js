@@ -30,6 +30,10 @@ var shapes = function shapes(target) {
     return set('fillStyle', style);
   };
 
+  var setOpacity = function setOpacity(opacity) {
+    return set('globalAlpha', opacity);
+  };
+
   var getLayerCommand = function getLayerCommand(name) {
     var end = name.indexOf(' ');
 
@@ -50,7 +54,7 @@ var shapes = function shapes(target) {
 
       var alpha = ctx.globalAlpha;
       if (opacity) {
-        ctx.globalAlpha = opacity;
+        setOpacity(opacity);
       }
 
       if (fill) {
@@ -63,7 +67,7 @@ var shapes = function shapes(target) {
         ctx.stroke(_path);
       }
 
-      ctx.globalAlpha = alpha;
+      setOpacity(alpha);
     };
 
     ShapesApi.prototype.poly = function poly(_ref2) {
@@ -75,7 +79,7 @@ var shapes = function shapes(target) {
 
       var alpha = ctx.globalAlpha;
       if (opacity) {
-        ctx.globalAlpha = opacity;
+        setOpacity(opacity);
       }
 
       drawPoly(points);
@@ -89,7 +93,7 @@ var shapes = function shapes(target) {
         setStroke(stroke, thickness);
         ctx.stroke();
       }
-      ctx.globalAlpha = alpha;
+      setOpacity(alpha);
     };
 
     ShapesApi.prototype.circle = function circle(_ref3) {
@@ -103,7 +107,7 @@ var shapes = function shapes(target) {
 
       var alpha = ctx.globalAlpha;
       if (opacity) {
-        ctx.globalAlpha = opacity;
+        setOpacity(opacity);
       }
 
       ctx.beginPath();
@@ -118,7 +122,7 @@ var shapes = function shapes(target) {
         setStroke(stroke, thickness);
         ctx.stroke();
       }
-      ctx.globalAlpha = alpha;
+      setOpacity(alpha);
     };
 
     ShapesApi.prototype.roundedRect = function roundedRect(_ref4) {
@@ -137,7 +141,7 @@ var shapes = function shapes(target) {
       var r = Math.min(radius, height, width);
       var alpha = ctx.globalAlpha;
       if (opacity) {
-        ctx.globalAlpha = opacity;
+        setOpacity(opacity);
       }
 
       ctx.beginPath();
@@ -161,7 +165,7 @@ var shapes = function shapes(target) {
         setStroke(stroke, thickness);
         ctx.stroke();
       }
-      ctx.globalAlpha = alpha;
+      setOpacity(alpha);
     };
 
     ShapesApi.prototype.text = function text(_ref5) {
@@ -179,7 +183,7 @@ var shapes = function shapes(target) {
       var posY = offsY + y;
       var alpha = ctx.globalAlpha;
       if (opacity) {
-        ctx.globalAlpha = opacity;
+        setOpacity(opacity);
       }
 
       set('font', font);
@@ -194,7 +198,7 @@ var shapes = function shapes(target) {
         setStroke(stroke, thickness);
         ctx.strokeText(value, posX, posY);
       }
-      ctx.globalAlpha = alpha;
+      setOpacity(alpha);
     };
 
     ShapesApi.prototype.rect = function rect(_ref6) {
@@ -212,7 +216,7 @@ var shapes = function shapes(target) {
 
       var alpha = ctx.globalAlpha;
       if (opacity) {
-        ctx.globalAlpha = opacity;
+        setOpacity(opacity);
       }
 
       if (fill) {
@@ -224,7 +228,7 @@ var shapes = function shapes(target) {
         setStroke(stroke, thickness);
         ctx.strokeRect(posX, posY, width, height);
       }
-      ctx.globalAlpha = alpha;
+      setOpacity(alpha);
     };
 
     ShapesApi.prototype.textWidth = function textWidth(value, font) {
