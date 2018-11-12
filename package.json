@@ -1,6 +1,6 @@
 {
   "name": "shapes",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A friendly shape drawing API for the HTML canvas.",
   "main": "build/shapes.js",
   "types": "src/shapes.d.ts",

@@ -27,8 +27,14 @@ export interface Stroked {
   thickness: number;
 }
 
+/** Defines that the shape has an opacity. */
+export interface Translucent {
+  /** The opacity of the shape, 0.0 to 1.0, where 1.0 means 100% opaque. */
+  opacity: number;
+}
+
 /** Defines that the shape is visible. Filled, stroked or both */
-export type Visible = (Filled | Stroked) | (Filled & Stroked);
+export type Visible = (Filled | Stroked) | (Filled & Stroked) | Translucent;
 
 /** Defines the offset of a shape. */
 export interface Offset {
