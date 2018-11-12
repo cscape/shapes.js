@@ -25,6 +25,8 @@ const shapes = target => {
 
   const setFill = style => set('fillStyle', style);
 
+  const setOpacity = opacity => set('globalAlpha', opacity);
+
   const getLayerCommand = name => {
     const end = name.indexOf(' ');
 
@@ -32,7 +34,12 @@ const shapes = target => {
   };
 
   class ShapesApi {
-    path({ path, fill, stroke, thickness }) {
+    path({ path, fill, stroke, thickness, opacity }) {
+      const alpha = ctx.globalAlpha;
+      if (opacity) {
+        setOpacity(opacity);
+      }
+
       if (fill) {
         setFill(fill);
         ctx.fill(path);
@@ -42,9 +49,16 @@ const shapes = target => {
         setStroke(stroke, thickness);
         ctx.stroke(path);
       }
+
+      setOpacity(alpha);
     }
 
-    poly({ points, fill, stroke, thickness }) {
+    poly({ points, fill, stroke, thickness, opacity }) {
+      const alpha = ctx.globalAlpha;
+      if (opacity) {
+        setOpacity(opacity);
+      }
+
       drawPoly(points);
 
       if (fill) {
@@ -56,9 +70,15 @@ const shapes = target => {
         setStroke(stroke, thickness);
         ctx.stroke();
       }
+      setOpacity(alpha);
     }
 
-    circle({ x, y, radius, fill, stroke, thickness }) {
+    circle({ x, y, radius, fill, stroke, thickness, opacity }) {
+      const alpha = ctx.globalAlpha;
+      if (opacity) {
+        setOpacity(opacity);
+      }
+
       ctx.beginPath();
       ctx.arc(offsX + x, offsY + y, radius, 0, 2 * Math.PI);
 
@@ -71,12 +91,27 @@ const shapes = target => {
         setStroke(stroke, thickness);
         ctx.stroke();
       }
+      setOpacity(alpha);
     }
 
-    roundedRect({ x, y, width, height, radius, fill, stroke, thickness }) {
+    roundedRect({
+      x,
+      y,
+      width,
+      height,
+      radius,
+      fill,
+      stroke,
+      thickness,
+      opacity
+    }) {
       const posX = offsX + x;
       const posY = offsY + y;
       const r = Math.min(radius, height, width);
+      const alpha = ctx.globalAlpha;
+      if (opacity) {
+        setOpacity(opacity);
+      }
 
       ctx.beginPath();
       ctx.moveTo(posX + r, posY);
@@ -104,11 +139,16 @@ const shapes = target => {
         setStroke(stroke, thickness);
         ctx.stroke();
       }
+      setOpacity(alpha);
     }
 
-    text({ x, y, value, font, baseline, fill, stroke, thickness }) {
+    text({ x, y, value, font, baseline, fill, stroke, thickness, opacity }) {
       const posX = offsX + x;
       const posY = offsY + y;
+      const alpha = ctx.globalAlpha;
+      if (opacity) {
+        setOpacity(opacity);
+      }
 
       set('font', font);
       set('textBaseline', baseline);
@@ -122,11 +162,17 @@ const shapes = target => {
         setStroke(stroke, thickness);
         ctx.strokeText(value, posX, posY);
       }
+      setOpacity(alpha);
     }
 
-    rect({ x, y, width, height, fill, stroke, thickness }) {
+    rect({ x, y, width, height, fill, stroke, thickness, opacity }) {
       const posX = offsX + x;
       const posY = offsY + y;
+
+      const alpha = ctx.globalAlpha;
+      if (opacity) {
+        setOpacity(opacity);
+      }
 
       if (fill) {
         setFill(fill);
@@ -137,6 +183,7 @@ const shapes = target => {
         setStroke(stroke, thickness);
         ctx.strokeRect(posX, posY, width, height);
       }
+      setOpacity(alpha);
     }
 
     textWidth(value, font) {
@@ -146,11 +193,13 @@ const shapes = target => {
     }
 
     layers(layers) {
-      layers.filter(l => !!l).forEach(layer => {
-        for (const name in layer) {
-          this[getLayerCommand(name)](layer[name]);
-        }
-      });
+      layers
+        .filter(l => !!l)
+        .forEach(layer => {
+          for (const name in layer) {
+            this[getLayerCommand(name)](layer[name]);
+          }
+        });
     }
 
     setOrigin(x, y) {
